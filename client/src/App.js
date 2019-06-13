@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
 import './App.css';
+import { updateUser } from './actions/user-actions';
+import { bindActionCreators } from 'redux';
 
-function App() {
+
+
+function App(props) {
+
+var onUpdateUser = (e) => {
+    this.props.setState(e.target.value);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input onChange={onUpdateUser} />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state, props) => {
+  return {
+    products: state.products,
+    user: state.user
+  }
+};
+const mapActionsToProps =(dispatch, props) =>{
+  return bindActionCreators({
+    onUpdateUser: updateUser
+  }, dispatch)
+};
+
+export default connect(mapStateToProps, mapActionsToProps )(App);
